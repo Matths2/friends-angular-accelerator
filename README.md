@@ -30,11 +30,11 @@ export GIT_REPO=<YOUR_GIT_REPO>
 Write the following command in your terminal to deploy the application to the cluster.
 
 ```bash
-tanzu apps workload create next-surveyjs-lab \
+tanzu apps workload create friends-angular-accelerator \
 --git-repo ${GIT_REPO} \
 --git-branch main \
 --type web \
---label app.kubernetes.io/part-of=node-express \
+--label app.kubernetes.io/part-of=friends-angular-accelerator \
 --yes \
 --namespace ${YOUR_NAMESPACE}
 ```
@@ -43,7 +43,7 @@ tanzu apps workload create next-surveyjs-lab \
 Write the following command in your terminal to get build status and the url to the application.
 
 ```bash
-tanzu apps workload get -n ${YOUR_NAMESPACE} node-express
+tanzu apps workload get -n ${YOUR_NAMESPACE} friends-angular-accelerator
 ```
 
 Push to the ```main``` branch of this repo will trigger a new build and deployment to the cluster.
