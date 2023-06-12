@@ -5,3 +5,7 @@ accelerator:
   tags:
   - simple
   - getting-started
+  - Angular
+  - ESlint
+  - Prettier
+  - OpenAPI generator
