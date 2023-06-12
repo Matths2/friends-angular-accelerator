@@ -1,27 +1,55 @@
-# FriendsAngularAccelerator
+# Friends Angular Accelerator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.0.
+This is a baseline  TAP Angular Accelerator that includes and configures the following packages:
 
-## Development server
+* Angular
+* ESlint
+* Prettier
+* OpenAPI typescript-angular generator
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+A Dockerfile is included in the Accelerator also.
 
-## Code scaffolding
+## Getting Started
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+The following steps will get you started with this project.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+### Production
 
-## Running unit tests
+The following steps assumes you have credentials and has a ssh session established to the kubernetes cluster established.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<br>
+ Write the following command in your terminal to set the namespace you want to deploy to.
 
-## Running end-to-end tests
+```bash
+export YOUR_NAMESPACE=<YOUR_NAMESPACE>
+export GIT_REPO=<YOUR_GIT_REPO>
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+<br>
+Write the following command in your terminal to deploy the application to the cluster.
 
-## Further help
+```bash
+tanzu apps workload create next-surveyjs-lab \
+--git-repo ${GIT_REPO} \
+--git-branch main \
+--type web \
+--label app.kubernetes.io/part-of=node-express \
+--yes \
+--namespace ${YOUR_NAMESPACE}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<br>
+Write the following command in your terminal to get build status and the url to the application.
+
+```bash
+tanzu apps workload get -n ${YOUR_NAMESPACE} node-express
+```
+
+Push to the ```main``` branch of this repo will trigger a new build and deployment to the cluster.
+<br>
+
+For more information:
+
+- [Friends TAP confluence](https://confluence.shared.int.tds.tieto.com/x/PKC2EQ)
+
