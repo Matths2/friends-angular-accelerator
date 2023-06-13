@@ -8,4 +8,4 @@ accelerator:
   - Angular
   - ESlint
   - Prettier
-  - OpenAPI generator
+  - OpenAPI-generator
