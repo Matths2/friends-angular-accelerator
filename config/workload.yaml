@@ -5,22 +5,22 @@ metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
     app.kubernetes.io/part-of: friends-angular-accelerator
-    apps.tanzu.vmware.com/has-tests: "true"
+    apps.tanzu.vmware.com/has-tests: 'true'
 spec:
   params:
     - name: annotations
       value:
-        autoscaling.knative.dev/minScale: "1"
+        autoscaling.knative.dev/minScale: '1'
     - name: clusterBuilder
       value: full
   build:
     env:
       - name: BP_NODE_RUN_SCRIPTS
-        value: "build"
+        value: 'build'
       - name: BP_WEB_SERVER_ROOT
-        value: "dist"
+        value: 'dist'
   source:
     git:
-      url: <https URL for your generated project's Git repository>
+      url: https://github.com/Matths2/friends-angular-accelerator
       ref:
         branch: main
