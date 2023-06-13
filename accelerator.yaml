@@ -1,7 +1,7 @@
 accelerator:
   displayName: Friends Angular Accelerator
   description: Friends project base configuration for frontend
-  iconUrl: https://friends.se/uploads/2022/05/friends_logo_rod_footer2-300x113.png
+  iconUrl: https://friends.se/app/themes/friends/assets/img/icons/favicon.ico
   tags:
   - simple
   - getting-started
