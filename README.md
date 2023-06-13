@@ -16,7 +16,7 @@ The following steps will get you started with this project.
 
 ### Production
 
-The following steps assumes you have credentials and has a ssh session established to the kubernetes cluster established.
+The following steps assumes you have credentials and has a ssh session to the kubernetes cluster established.
 
 <br>
  Write the following command in your terminal to set the namespace you want to deploy to.
