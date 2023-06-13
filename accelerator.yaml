@@ -3,9 +3,77 @@ accelerator:
   description: Friends project base configuration for frontend
   iconUrl: https://friends.se/app/themes/friends/assets/img/icons/favicon.ico
   tags:
-  - simple
-  - getting-started
-  - Angular
-  - ESlint
-  - Prettier
-  - OpenAPI-generator
+    - simple
+    - getting-started
+    - Angular
+    - ESlint
+    - Prettier
+    - OpenAPI-generator
+
+  options:
+    - name: artifactId
+      inputType: text
+      defaultValue: "angular-frontend"
+      label: Application artifact name
+      required: true
+    - name: backendService
+      inputType: text
+      defaultValue: "customer-profile-backend.namespace"
+      label: Hostname of the backend services app. If backend services are deployed to the same cluster then a local route can be used (e.g. <backend-app>.<namespace>).
+      required: true
+
+  engine:
+  let:
+    - name: backendServiceResourceName
+      expression: '#backendService.toLowerCase()'
+    - name: workloadResourceName
+      expression: '#artifactId.toLowerCase()'
+  chain:
+    - applyTo: [ "nginx.conf" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: "http://backend/api/"
+              with: "'http://' + #backendServiceResourceName + '/api/'"
+
+    - applyTo: [ "config/workload.yaml", "catalog/catalog-info.yaml" ]
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: "angular-frontend"
+              with: "#workloadResourceName"
+
+    - condition: "!#useSingleSignOn"
+      merge:
+        - include: [ "**" ]
+          exclude: [ "README.md", "src/app/app.module.ts", "src/app/app-routing.module.ts", "AUTHORIZATION.md", "src/app/authorization/**", "src/app/user-profile/**", "src/assets/auth.conf.json", "src/app/app-config.service.ts", "src/utils.ts", "src/utils.spec.ts" ]
+        - include: [ "src/app/app.module.ts", "src/app/app-routing.module.ts" ]
+          chain:
+            - type: ReplaceText
+              regex:
+                pattern: "// StartSSOImports[\\s\\S]+?// EndSSOImports"
+                with: "''"
+            - type: ReplaceText
+              regex:
+                pattern: "// StartSSOProviders[\\s\\S]+?// EndSSOProviders"
+                with: "''"
+            - type: ReplaceText
+              regex:
+                pattern: "// StartSSOModules[\\s\\S]+?// EndSSOModules"
+                with: "''"
+            - type: ReplaceText
+              regex:
+                pattern: "// StartSSORoutes[\\s\\S]+?// EndSSORoutes"
+                with: "''"
+        - include: [ "README.md" ]
+          chain:
+            - type: ReplaceText:
+              regex:
+                pattern: "--- StartAuthorization[\\s\\S]+?--- EndAuthorization"
+                with: "''"
+      onConflict: UseFirst
+
+    - include: [ "**" ]
+      exclude: [ "tekton/**" ]
+
+    - type: Provenance
