@@ -23,7 +23,7 @@ accelerator:
       required: true
     - name: nodeRoot
       inputType: text
-      defaultValue: 'node-root-path'
+      defaultValue: ''
       label: Root directory of the node project, relative to the git repository root.
       required: false
 
