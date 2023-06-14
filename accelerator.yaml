@@ -13,13 +13,18 @@ accelerator:
   options:
     - name: artifactId
       inputType: text
-      defaultValue: "angular-frontend"
+      defaultValue: 'angular-frontend'
       label: Application artifact name
       required: true
     - name: backendService
       inputType: text
-      defaultValue: "customer-profile-backend.namespace"
+      defaultValue: 'customer-profile-backend.namespace'
       label: Hostname of the backend services app. If backend services are deployed to the same cluster then a local route can be used (e.g. <backend-app>.<namespace>).
+      required: true
+    - name: nodeRoot
+      inputType: text
+      defaultValue: ''
+      label: Root directory of the node project, relative to the git repository root.
       required: true
 
   engine:
@@ -28,17 +33,25 @@ accelerator:
       expression: '#backendService.toLowerCase()'
     - name: workloadResourceName
       expression: '#artifactId.toLowerCase()'
+    - name: workloadNodeRoot
+      expression: '#nodeRoot.toLowerCase()'
   chain:
-    - applyTo: [ "nginx.conf" ]
+    - applyTo: ['nginx.conf']
       chain:
         - type: ReplaceText
           substitutions:
-            - text: "http://backend/api/"
+            - text: 'http://backend/api/'
               with: "'http://' + #backendServiceResourceName + '/api/'"
 
-    - applyTo: [ "config/workload.yaml", "catalog/catalog-info.yaml" ]
+    - applyTo: ['config/workload.yaml', 'catalog/catalog-info.yaml']
       chain:
         - type: ReplaceText
           substitutions:
-            - text: "angular-frontend"
-              with: "#workloadResourceName"
+            - text: 'angular-frontend'
+              with: '#workloadResourceName'
+    - applyTo: ['config/workload.yaml']
+      chain:
+        - type: ReplaceText
+          substitutions:
+            - text: ''
+              with: '#workloadNodeRoot'
