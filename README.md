@@ -30,10 +30,6 @@ export GIT_REPO=<YOUR_GIT_REPO>
 Write the following command in your terminal to deploy the application to the cluster.
 
 ```bash
-tanzu apps workload create -f config/workload.yaml -n ${YOUR_NAMESPACE}
-```
-
-```bash
 tanzu apps workload create friends-angular-accelerator \
 --git-repo ${GIT_REPO} \
 --git-branch main \
